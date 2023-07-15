@@ -93,6 +93,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::delete('destroy/{id}', [OrderInformationController::class, 'destroy'])->name('order.destroy');
 
         Route::get('/admin-order-list', [AdminOrderCreateController::class, 'index'])->name('order.admin.index');
+        Route::get('/admin-order-create', [AdminOrderCreateController::class, 'create'])->name('order.admin.create');
     });
     //Report Route
     Route::group(['prefix' => 'report'], function () {

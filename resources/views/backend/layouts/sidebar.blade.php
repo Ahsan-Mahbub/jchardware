@@ -155,7 +155,7 @@
           </a>
           <ul class="nav-main-submenu">
             <li class="nav-main-item">
-              <a class="nav-main-link" href="{{route('product.create')}}">
+              <a class="nav-main-link" href="{{route('order.admin.create')}}">
                 <span class="nav-main-link-name">Create Order</span>
               </a>
             </li>
