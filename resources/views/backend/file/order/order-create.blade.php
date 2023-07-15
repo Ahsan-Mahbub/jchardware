@@ -78,8 +78,8 @@
                           <input type="text" class="form-control" id="register3-lastname" name="register3-lastname" placeholder="Quantity..">
                         </div>
                         <div class="col-2">
-                          <button type="button" class="btn btn-success me-1 mb-1">
-                              <i class="fa fa-plus"></i>
+                          <button type="button" class="btn btn-danger me-1 mb-1">
+                              <i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -94,8 +94,8 @@
                           <input type="text" class="form-control" id="register3-lastname" name="register3-lastname" placeholder="Quantity..">
                         </div>
                         <div class="col-2">
-                          <button type="button" class="btn btn-success me-1 mb-1">
-                              <i class="fa fa-plus"></i>
+                          <button type="button" class="btn btn-danger me-1 mb-1">
+                              <i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -110,8 +110,8 @@
                           <input type="text" class="form-control" id="register3-lastname" name="register3-lastname" placeholder="Quantity..">
                         </div>
                         <div class="col-2">
-                          <button type="button" class="btn btn-success me-1 mb-1">
-                              <i class="fa fa-plus"></i>
+                          <button type="button" class="btn btn-danger me-1 mb-1">
+                              <i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>

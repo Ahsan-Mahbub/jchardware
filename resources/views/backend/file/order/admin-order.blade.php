@@ -6,6 +6,9 @@
 	        <h3 class="block-title">
 	      	  Admin Order Table
 	        </h3>
+			<div class="block-options">
+				<a href="{{route('order.admin.create')}}" class="btn btn-alt-primary"><i class="fa fa-plus mr-5"></i> Add Create Order</a>
+			</div>
 	    </div>
 	    <div class="block-content block-content-full">
 		    <table class="table table-bordered table-striped table-vcenter js-dataTable-responsive">
