@@ -94,6 +94,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 
         Route::get('/admin-order-list', [AdminOrderCreateController::class, 'index'])->name('order.admin.index');
         Route::get('/admin-order-create', [AdminOrderCreateController::class, 'create'])->name('order.admin.create');
+        Route::post('/admin-order-search-product', [AdminOrderCreateController::class, 'getSearchProduct'])->name('order.search.product');
+        Route::post('/admin-order-get-product-details', [AdminOrderCreateController::class, 'adminOrderGetProductDetails']);
     });
     //Report Route
     Route::group(['prefix' => 'report'], function () {
