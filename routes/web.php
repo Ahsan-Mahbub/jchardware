@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::post('/get-search-product', [AjaxController::class, 'getSearchProduct'])->name('get-search-product');
         Route::post('/get-product-details', [AjaxController::class, 'getProductDetails'])->name('get-product-details');
     });
+
     //Setting Route
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/index', [SettingController::class, 'index'])->name('setting.index');
@@ -83,6 +84,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::get('/index', [BannerController::class, 'index'])->name('banner.index');
         Route::post('update/{id}', [BannerController::class, 'update'])->name('banner.update');
     });
+    
     //Message Route
     Route::group(['prefix' => 'message'], function () {
         Route::get('/list', [MessageController::class, 'index'])->name('message.index');
