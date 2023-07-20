@@ -38,22 +38,52 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        $validator  = $request->validate([
-            'product_id'  => 'required',
-            'quantity'  => 'required',
-        ]);
-        \DB::transaction(function () use( $request ) {
-            $stock = new Stock();
-            $formData = $request->all();
-            $stock->fill($formData)->save();
+        $data = $request->all();
+        // dd($request->all());
+        // $validator  = $request->validate([
+        //     'product_id'  => 'required',
+        //     'quantity'  => 'required',
+        // ]);
 
-            $product = Product::where('id', $request->product_id)->first();
-            $product_stock_data = [
-                'stock'   => $product->stock + $request->quantity,
-            ];
-            Product::where('id', $request->product_id)->update($product_stock_data);
+        // for ($key=0; $key < count($data['product_id']); $key++) {
+        //     $isStock = Stock::where('product_id', $data['product_id'][$key])->get()->count();
+        //     if ($isStock > 0) {
+        //         $stock = Stock::where('product_id', $data['product_id'][$key])->first();
+        //         $stock->quantity =  $data['qty'][$key] + $stock->quantity;
+        //     } else {
+        //         $stock = new Stock;
+        //         $stock->quantity = $data['qty'][$key];
+        //     } 
+        //     $stock->product_id = $data['product_id'][$key];         
+        //     $stock->save();
+        // }  
+        // return redirect()->route('product-stock.index')->with('message', 'Product Stock inserted Successfully');
+
+        DB::transaction(function () use( $data ) {
+            // $stock = new Stock();
+            // $formData = $request->all();
+            // $stock->fill($formData)->save();
+
+            for ($key=0; $key < count($data['product_id']); $key++) {
+                $isStock = Stock::where('product_id', $data['product_id'][$key])->get()->count();
+                if ($isStock > 0) {
+                    $stock = Stock::where('product_id', $data['product_id'][$key])->first();
+                    $stock->quantity =  $data['qty'][$key] + $stock->quantity;
+                } else {
+                    $stock = new Stock;
+                    $stock->quantity = $data['qty'][$key];
+                } 
+                $stock->product_id = $data['product_id'][$key];         
+                $stock->save();
+
+                $product = Product::where('id', $data['product_id'][$key])->first();
+                $product_stock_data = [
+                    'stock'   => $product->stock + $data['qty'][$key],
+                ];
+                Product::where('id', $data['product_id'][$key])->update($product_stock_data);
+            }              
         });
-        return back()->with('message', 'Product Stock Successfully');
+        return back()->with('message', 'Product Stock store Successfully');
     }
 
     /**

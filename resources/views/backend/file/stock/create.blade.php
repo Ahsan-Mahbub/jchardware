@@ -1,100 +1,165 @@
 @extends('backend.layouts.app')
+
 @section('content')
 <style type="text/css">
-	.block{
-		margin-bottom: 0;
-	}
+    .block {
+        margin-bottom: 0;
+    }
 </style>
 <div class="content">
-	<div class="block block block-rounded">
-	    <div class="block-header block-header-default">
-	        <h3 class="block-title"> All Product</h3>
-	    </div>
-	    <div style="max-height: 610px; overflow-y: scroll;">
-	    	<div class="container mt-4 mb-4">
-	    	<div class="row">
-	            @foreach($products as $value)
-	            <div class="col-md-3 col-xl-2 stock_product mb-2" data-id="{{$value}}" style="cursor: pointer;">
-	                <a class="block block-link-shadow">
-	                    <div class="block-content block-content-full text-center p-0 pb-1" style="border-radius: 10px;
-                        box-shadow: 1px 1px 1px 2px ">
-	                        <div class="p-2 mb-2">
-	                            <img width="100%" height="120" src=/{{$value->image}}>
-	                        </div>
-	                        <p class="font-size-lg font-w600 mb-0">
-	                            {{ $value->product_name  }}
-	                        </p>
-	                    </div>
-	                </a>
-	            </div>
-	            @endforeach
-	        </div>
-	    	</div>
-	    </div>
-	</div>
-</div>
-
-<div class="content">
-	<div class="block block block-rounded">
-	    <div class="block-header block-header-default">
-            <h3 class="block-title">Add Product Stock</h3>
-	    </div>
-    	<form role="form" action="{{ route('stock.store') }}" method="post" enctype="multipart/form-data" name="myForm" onsubmit="return validateForm()">
-            @csrf
-	        <div class="block-content">
-	            <div class="row items-push">
-	            	<input type="hidden" id="product_id" name="product_id" required="">
-	                <div class="col-xl-7">
-	                    <div class="form-group row">
-	                        <label class="col-12" for="product_name">Product Name</label>
-	                        <div class="col-lg-12">
-	                            <input type="text" class="form-control" id="product_name" disabled="">
-	                        </div>
-	                        @error('product_name')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-	                    </div>
-	                </div>
-	                <div class="col-xl-5">
-	                    <div class="form-group row">
-	                        <label class="col-12" for="quantity">Product Quantity <span class="text-danger">*</span></label>
-	                        <div class="col-lg-12">
-	                            <input type="number" name="quantity" class="form-control" id="quantity" placeholder="Enter Product Quantity" required="">
-	                        </div>
-	                        @error('quantity')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-	                    </div>
-	                </div>
-
-                    <div class="form-group pl-10">
-                        <button type="submit" id="submit" class="btn btn-alt-primary">Stock</button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title"> All Product</h3>
+                </div>
+                <div style="max-height: 610px; overflow-y: scroll;">
+                    <div class="container mt-4 mb-4">
+                        <form action="javascript:void(0)" method="GET">
+                            <div class="form-group row offset-lg-2">
+                                <label class="col-3 col-form-label text-end">Search Product :</label>
+                                <div class="col-6">
+                                    <input class="form-control" name="product_name" id="search"
+                                        placeholder="Product Name">
+                                </div>
+                            </div>
+                        </form>
+                        <div class="show_search_product">
+                            @include('backend.file.stock.search-product')
+                        </div>
                     </div>
-	            </div>
-	        </div>
-	    </form>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{{route('stock.store')}}" method="post">
+        @csrf
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Add Product Stock</h3>
+                    </div>
+                   
+                    <div class="block-content">
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <label class="form-label">Product Name</label>
+                            </div>
+                            <div class="col-2">
+                                <label class="form-label">Price</label>
+                            </div>
+                            <div class="col-2">
+                                <label class="form-label">Quantity</label>
+                            </div>
+                            <div class="col-2">
+                                <label class="form-label">Action</label>
+                            </div>
+                        </div>
+                        <div class="add_item" id="add_item">
+
+                        </div>
+                        <div class="form-group pl-10 mb-4">
+                            <button type="submit" id="submit" class="btn btn-alt-primary">Stock</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>            
+        </div>
+    </form>
+</div>
+
+<div style="visibility: hidden;">
+    <div class="whole_extra_item_add" id="whole_extra_item_add">
+        <div class="delete_whole_extra_item_add" id="delete_whole_extra_item_add">
+
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
-@section('script')
-<script type="text/javascript">
-	$('.stock_product').click(function(){
-		let product_info = $(this).data('id');
-		let product_ids = product_info.id;
-		let product_names = product_info.product_name;
 
-		document.getElementById('product_id').value = product_ids;
-		document.getElementById('product_name').value = product_names;
-		toastr.success(" Product Selected", "Success");
-	})
+@section('script')
+<script>
+    //  search product by ajax
+    $("body").on("keyup", "#search", function () {
+        let searchData = $("#search").val();
+        let searchDataLength = searchData.length;
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            type: "POST",
+            url: '{{route("get-search-product")}}',
+            data: {
+                search: searchData,
+                searchDataLength: searchDataLength,
+            },
+            success: function (result) {
+                $(".show_search_product").html(result);
+            },
+        });
+    });
+
+    //  Admin order product by ajax
+    $(document).ready(function(){
+        var counter = 0;
+        $(document).on("click", ".addEvenMore", function(){
+            let product_id = $(this).attr('product_id');
+            var whole_extra_item_add = $("#whole_extra_item_add").html();
+            var addItem = $("#add_item");
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{route("get-product-details")}}',
+                type: "POST",
+                data: {product_id:product_id},
+                success: function(resp){
+                    addItem.append(`
+                        <div class="delete_whole_extra_item_add" id="delete_whole_extra_item_add">
+                            <div class="form-row">
+                                <div class="row mb-4">
+
+                                    <input type="hidden" name="product_id[]" value="${resp.id}">
+
+                                    <div class="col-4">
+                                        <input type="text" class="form-control" name="product_name[]" placeholder="Product Name.." value="${resp.product_name}" readonly>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" name="price[]" placeholder="Product Price.." value="${resp.price}" readonly>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" name="qty[]" placeholder="Qty.." required>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-danger me-1 mb-1 removeEvenMore">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                },
+                error: function(){
+                    alert('error');
+                }
+            });
+            counter ++;
+        });
+        $(document).on("click", ".removeEvenMore", function(event){
+            $(this).closest(".delete_whole_extra_item_add").remove();
+            counter -= 1;
+        });
+    });
 </script>
-<script type="text/javascript">
-	function validateForm() {
-		var x = document.forms["myForm"]["product_id"].value;
-		if (x == "") {
-		    toastr.warning(" Please Select Product", "Damage");
-		    return false;
-		}
-	}
+
+<script src="/backend/assets/js/plugins/select2/js/select2.full.min.js"></script>
+<script>
+    Codebase.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-colorpicker', 'jq-maxlength', 'jq-select2', 'jq-rangeslider', 'jq-masked-inputs', 'jq-pw-strength']);
 </script>
+
 @endsection
+
+

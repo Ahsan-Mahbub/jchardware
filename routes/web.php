@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SliderController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\OrderInformationController;
-use App\Http\Controllers\StockController;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AdminOrderCreateController;
+use App\Http\Controllers\OrderInformationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::get('/list', [StockController::class, 'index'])->name('stock.index');
         Route::get('create', [StockController::class, 'create'])->name('stock.create');
         Route::post('store', [StockController::class, 'store'])->name('stock.store');
+        Route::post('/get-search-product', [AjaxController::class, 'getSearchProduct'])->name('get-search-product');
+        Route::post('/get-product-details', [AjaxController::class, 'getProductDetails'])->name('get-product-details');
     });
     //Setting Route
     Route::group(['prefix' => 'setting'], function () {
