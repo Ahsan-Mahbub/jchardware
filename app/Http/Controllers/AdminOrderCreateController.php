@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\OrderInformation;
 use App\Models\Product;
+use App\Models\Customer;
 
 class AdminOrderCreateController extends Controller
 {
@@ -17,7 +18,8 @@ class AdminOrderCreateController extends Controller
     public function create()
     {
         $products = Product::get();
-        return view('backend.file.order.order-create', compact('products'));
+        $customers = Customer::get();
+        return view('backend.file.order.order-create', compact('products','customers'));
     }
 
     public function getSearchProduct(Request $request){
@@ -33,7 +35,7 @@ class AdminOrderCreateController extends Controller
     }
 
     public function adminOrderGetProductDetails(Request $request){
-        $productDetails = Product::where('id', $request->product_id)->select('product_name', 'price')->first();
+        $productDetails = Product::with('category')->where('id', $request->product_id)->first();
         return response()->json($productDetails);
     }
 

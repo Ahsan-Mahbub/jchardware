@@ -111,6 +111,6 @@ class OrderInformationController extends Controller
     public function destroy($id)
     {
         $delete = OrderInformation::where('id', $id)->firstorfail()->delete();
-        return redirect()->route('order.index')->with('message','Data Successfully Deleted');
+        return back()->with('message','Data Successfully Deleted');
     }
 }

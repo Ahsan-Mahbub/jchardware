@@ -137,7 +137,7 @@
 		        <div class="row mb-4">
 		          <div class="col-12">
 		            <label class="form-label" for="mega-firstname">Copyright</label>
-		            <input type="text" class="form-control form-control-lg" id="mega-firstname" value="{{$information->copyright}}" name="copyright" placeholder="Enter Copyright Text..">
+		            <input type="text" class="form-control editor" id="mega-firstname" value="{{$information->copyright}}" name="copyright" placeholder="Enter Copyright Text..">
 		          </div>
 		        </div>
 		      </div>

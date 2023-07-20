@@ -21,9 +21,6 @@
                                     <input class="form-control" name="product_name" id="search"
                                         placeholder="Product Name">
                                 </div>
-                                <div class="col-3">
-                                    <button class="btn btn-primary search-button">Search</button>
-                                </div>
                             </div>
                         </form>
                         <div class="show_search_product">
@@ -33,46 +30,52 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="block block-rounded">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Cart Item Information</h3>
-                </div>
-                <div class="block-content">
-                    <form action="" method="POST" onsubmit="return false;">
+    </div>
+    <form action="{{route('sale.store')}}" method="post">
+        @csrf
+        <div class="row">
+            <div class="col-md-8">
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Cart Item Information</h3>
+                    </div>
+                    <div class="block-content">
                         @csrf
                         <div class="row mb-4">
                             <div class="col-4">
-                                <label class="form-label" for="register3-firstname">Product Name</label>
+                                <label class="form-label">Product Name</label>
                             </div>
                             <div class="col-3">
-                                <label class="form-label" for="register3-lastname">Price</label>
+                                <label class="form-label">Price</label>
                             </div>
                             <div class="col-3">
-                                <label class="form-label" for="register3-lastname">Quantity</label>
+                                <label class="form-label">Qty</label>
                             </div>
                             <div class="col-2">
-                                <label class="form-label" for="register3-lastname">Action</label>
+                                <label class="form-label">Action</label>
                             </div>
                         </div>
                         <div class="add_item" id="add_item">
 
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="block block-rounded mb-0">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Customer Information</h3>
-                </div>
-                <div class="block-content">
-                    <form action="be_forms_premade.html" method="POST" onsubmit="return false;">
+            <div class="col-md-4">
+                <div class="block block-rounded mb-0">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Customer Information</h3>
+                    </div>
+                    <div class="block-content">
                         <div class="mb-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="name" placeholder="Enter Customer">
-                                <label class="form-label" for="register4-company">Customer Name</label>
+                                <select class="form-select" name="customer_id" required="">
+                                    <option value="">Select One</option>
+                                    @foreach($customers as $customer)
+                                    <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                    @endforeach
+                                    </select>
+                                <label class="form-label">Customer Name</label>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -80,11 +83,11 @@
                                 Checkout
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <div style="visibility: hidden;">
@@ -100,27 +103,25 @@
 @section('script')
 <script>
     //  search product by ajax
-    $("body").on("keyup", "#search", function() {
-      let searchData = $("#search").val();
-      let searchDataLength = searchData.length;
-      // console.log(searchData);
-      $.ajax({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          type: 'POST',
-          url: "admin-order-search-product",
-          data: {
-              search: searchData,
-              searchDataLength: searchDataLength,
-          },
-          success: function(result) {     
-              $('.show_search_product').html(result);     
-              console.log(result);      
-          }
+    $("body").on("keyup", "#search", function () {
+        let searchData = $("#search").val();
+        let searchDataLength = searchData.length;
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            type: "POST",
+            url: "admin-order-search-product",
+            data: {
+                search: searchData,
+                searchDataLength: searchDataLength,
+            },
+            success: function (result) {
+                $(".show_search_product").html(result);
+            },
         });
     });
-  
+
     //  Admin order product by ajax
     $(document).ready(function(){
         var counter = 0;
@@ -128,7 +129,6 @@
             let product_id = $(this).attr('product_id');
             var whole_extra_item_add = $("#whole_extra_item_add").html();
             var addItem = $("#add_item");
-            console.log(product_id);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -141,14 +141,19 @@
                         <div class="delete_whole_extra_item_add" id="delete_whole_extra_item_add">
                             <div class="form-row">
                                 <div class="row mb-4">
+
+                                    <input type="hidden" name="product_id[]" value="${resp.id}">
+                                    <input type="hidden" name="product_img[]" value="${resp.image}">
+                                    <input type="hidden" name="category_name[]" value="${resp.category.category_name}">
+
                                     <div class="col-4">
-                                        <input type="text" class="form-control" id="register3-firstname" name="register3-firstname" placeholder="Product Name.." value="${resp.product_name}" readonly>
+                                        <input type="text" class="form-control" name="product_name[]" placeholder="Product Name.." value="${resp.product_name}" readonly>
                                     </div>
                                     <div class="col-3">
-                                        <input type="text" class="form-control" id="register3-lastname" name="register3-lastname" placeholder="Product Price.." value="${resp.price}">
+                                        <input type="text" class="form-control" name="price[]" placeholder="Product Price.." value="${resp.price}" readonly>
                                     </div>
                                     <div class="col-3">
-                                        <input type="text" class="form-control" id="register3-lastname" name="register3-lastname" placeholder="Quantity..">
+                                        <input type="text" class="form-control" name="qty[]" placeholder="Qty.." required>
                                     </div>
                                     <div class="col-2">
                                         <button type="button" class="btn btn-danger me-1 mb-1 removeEvenMore">
@@ -164,8 +169,6 @@
                     alert('error');
                 }
             });
-            
-            
             counter ++;
         });
         $(document).on("click", ".removeEvenMore", function(event){

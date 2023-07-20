@@ -150,19 +150,19 @@
         </li>
         <li class="nav-main-item">
           <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-            <i class="nav-main-link-icon fab fa-opencart"></i>
-            <span class="nav-main-link-name">Admin Create Order</span>
+            <i class="nav-main-link-icon fa fa-handshake"></i>
+            <span class="nav-main-link-name">Sales</span>
           </a>
           <ul class="nav-main-submenu">
             <li class="nav-main-item">
               <a class="nav-main-link" href="{{route('order.admin.create')}}">
-                <span class="nav-main-link-name">Create Order</span>
+                <span class="nav-main-link-name">Create Sales</span>
               </a>
             </li>
 
             <li class="nav-main-item">
               <a class="nav-main-link" href="{{route('order.admin.index')}}">
-                <span class="nav-main-link-name">Create Order List</span>
+                <span class="nav-main-link-name">Sales List</span>
               </a>
             </li>
           </ul>

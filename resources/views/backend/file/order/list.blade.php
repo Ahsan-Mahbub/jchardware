@@ -27,9 +27,9 @@
 		          	<tr>
 			            <td class="text-center">{{$sl++}}</td>
 			            <th class="text-center">#{{$order->invoice}}</th>
-	                  	<td class="text-center">{{$order->created_at}}</td>
-						  <td class="text-center">{{$order->customer_id ? 'Customer' : 'Guest'}}</td>
-						  <td class="text-center">{{$order->name}}</td>
+						<td class="text-center"><?php $date = date('d-m-Y', strtotime($order->created_at)); ?>{{$date}}</td>
+						<td class="text-center">{{$order->customer_id ? 'Customer' : 'Guest'}}</td>
+						<td class="text-center">{{$order->name}}</td>
 	                  	<td class="text-center">$ {{$order->total_ammount}}</td>
 	                 	<td class="text-center">
 		                    @if($order->status == 1)

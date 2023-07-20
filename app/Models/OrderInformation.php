@@ -21,6 +21,7 @@ class OrderInformation extends Model
         'email',
         'phone',
         'address',
+        'type',
     ];
     public function customer(){
         return $this->belongsTo(Customer::class,'customer_id');

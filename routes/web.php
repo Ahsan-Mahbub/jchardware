@@ -13,6 +13,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AdminOrderCreateController;
+use App\Http\Controllers\SaleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +70,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::get('/list', [StockController::class, 'index'])->name('stock.index');
         Route::get('create', [StockController::class, 'create'])->name('stock.create');
         Route::post('store', [StockController::class, 'store'])->name('stock.store');
+        Route::post('/stock-search-product', [StockController::class, 'getSearchProduct']);
     });
     //Setting Route
     Route::group(['prefix' => 'setting'], function () {
@@ -92,9 +94,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::get('status/{id}', [OrderInformationController::class, 'status'])->name('order.status');
         Route::delete('destroy/{id}', [OrderInformationController::class, 'destroy'])->name('order.destroy');
 
-        Route::get('/admin-order-list', [AdminOrderCreateController::class, 'index'])->name('order.admin.index');
-        Route::get('/admin-order-create', [AdminOrderCreateController::class, 'create'])->name('order.admin.create');
-        Route::post('/admin-order-search-product', [AdminOrderCreateController::class, 'getSearchProduct'])->name('order.search.product');
+        Route::get('/sales-order-list', [AdminOrderCreateController::class, 'index'])->name('order.admin.index');
+        Route::get('/sales-order-create', [AdminOrderCreateController::class, 'create'])->name('order.admin.create');
+        Route::post('/admin-order-search-product', [AdminOrderCreateController::class, 'getSearchProduct']);
         Route::post('/admin-order-get-product-details', [AdminOrderCreateController::class, 'adminOrderGetProductDetails']);
     });
     //Report Route
@@ -111,5 +113,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
         Route::get('edit/{id}', [CustomerController::class, 'edit'])->name('customer.edit');
         Route::post('update/{id}', [CustomerController::class, 'update'])->name('customer.update');
         Route::delete('destroy/{id}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+    });
+
+    //Order Route
+    Route::group(['prefix' => 'sales'], function () {
+        Route::post('/store', [SaleController::class, 'store'])->name('sale.store');
     });
 });

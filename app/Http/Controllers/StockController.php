@@ -100,4 +100,16 @@ class StockController extends Controller
     {
         //
     }
+
+    public function getSearchProduct(Request $request){
+        if ($request->searchDataLength >= 0) {
+            $products = Product::where("product_name","LIKE","%".$request->search."%")
+            ->orWhere('slug',"LIKE","%".$request->search."%")
+            ->get();           
+        }
+        else {
+            $products = Product::get();
+        }
+        return view('backend.file.stock.search-product', compact('products'));
+    }
 }

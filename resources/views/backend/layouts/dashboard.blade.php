@@ -79,6 +79,16 @@
       </a>
     </div>
     <div class="col-6 col-md-4 col-xl-2">
+      <a class="block block-rounded text-center" href="{{route('order.admin.index')}}">
+        <div class="block-content px-2">
+          <p class="mt-1 mb-3">
+            <i class="fa fa-handshake text-gray fa-2x"></i>
+          </p>
+          <p class="fw-semibold fs-sm text-uppercase">Sales</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-2">
       <a class="block block-rounded text-center" href="{{route('message.index')}}">
         <div class="block-content px-2">
           <p class="mt-1 mb-3">

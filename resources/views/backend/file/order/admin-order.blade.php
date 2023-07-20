@@ -4,10 +4,10 @@
 	<div class="block block-rounded">
 	    <div class="block-header block-header-default">
 	        <h3 class="block-title">
-	      	  Admin Order Table
+	      	  Admin Slaes Table
 	        </h3>
 			<div class="block-options">
-				<a href="{{route('order.admin.create')}}" class="btn btn-alt-primary"><i class="fa fa-plus mr-5"></i> Add Create Order</a>
+				<a href="{{route('order.admin.create')}}" class="btn btn-alt-primary"><i class="fa fa-plus mr-5"></i> Create Sales</a>
 			</div>
 	    </div>
 	    <div class="block-content block-content-full">
@@ -30,9 +30,9 @@
 		          	<tr>
 			            <td class="text-center">{{$sl++}}</td>
 			            <th class="text-center">#{{$order->invoice}}</th>
-	                  	<td class="text-center">{{$order->created_at}}</td>
-						  <td class="text-center">{{$order->customer_id ? 'Customer' : 'Guest'}}</td>
-						  <td class="text-center">{{$order->name}}</td>
+	                  	<td class="text-center"><?php $date = date('d-m-Y', strtotime($order->created_at)); ?>{{$date}}</td>
+						<td class="text-center">{{$order->customer_id ? 'Customer' : 'Guest'}}</td>
+						<td class="text-center">{{$order->name}}</td>
 	                  	<td class="text-center">$ {{$order->total_ammount}}</td>
 	                 	<td class="text-center">
 		                    @if($order->status == 1)
@@ -56,10 +56,6 @@
 										</a>
 				                        <a class="dropdown-item" href="{{url('admin/order/status/'.$order->id.'?status=1')}}">
 				                          <i class="fa fa-fw fa-check opacity-50 me-1"></i>Deliverd
-				                        </a>
-				                        <div class="dropdown-divider"></div>
-				                        <a class="dropdown-item" href="{{url('admin/order/status/'.$order->id.'?status=0')}}">
-				                          <i class="fa fa-fw fa-trash opacity-50 me-1"></i>Rejected
 				                        </a>
 				                      </div>
 				                    </div>
